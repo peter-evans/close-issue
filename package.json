@@ -33,7 +33,6 @@
   "devDependencies": {
     "@types/jest": "25.2.1",
     "@types/node": "13.13.4",
-    "@octokit/types": "2.12.2",
     "@typescript-eslint/parser": "2.30.0",
     "@zeit/ncc": "0.20.5",
     "eslint": "6.8.0",
