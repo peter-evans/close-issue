@@ -1,0 +1,49 @@
+{
+  "name": "close-issue",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A GitHub action to close an issue",
+  "main": "lib/main.js",
+  "scripts": {
+    "build": "tsc && ncc build",
+    "format": "prettier --write **/*.ts",
+    "format-check": "prettier --check **/*.ts",
+    "lint": "eslint src/**/*.ts",
+    "test": "jest --passWithNoTests"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/peter-evans/close-issue.git"
+  },
+  "bugs": {
+    "url": "https://github.com/peter-evans/close-issue/issues"
+  },
+  "homepage": "https://github.com/peter-evans/close-issue#readme",
+  "keywords": [
+    "actions",
+    "close",
+    "issue"
+  ],
+  "author": "Peter Evans",
+  "license": "MIT",
+  "dependencies": {
+    "@actions/core": "1.2.4",
+    "@actions/github": "2.1.1"
+  },
+  "devDependencies": {
+    "@types/jest": "25.2.1",
+    "@types/node": "13.13.4",
+    "@octokit/types": "2.12.2",
+    "@typescript-eslint/parser": "2.30.0",
+    "@zeit/ncc": "0.20.5",
+    "eslint": "6.8.0",
+    "eslint-plugin-github": "3.4.1",
+    "eslint-plugin-jest": "23.8.2",
+    "jest": "25.5.4",
+    "jest-circus": "25.5.4",
+    "js-yaml": "3.13.1",
+    "prettier": "2.0.5",
+    "ts-jest": "25.4.0",
+    "typescript": "3.8.3"
+  }
+}
