@@ -14,13 +14,32 @@ A GitHub action to close an issue.
           comment: Auto-closing issue
 ```
 
+### Close issues where the title does not match a specified prefix
+
+```yml
+on:
+  issues:
+    types: [opened]
+jobs:
+  titlePrefixCheck:
+    runs-on: ubuntu-latest
+    steps:
+      - if: startsWith(github.event.issue.title, 'ABC-') != 'true'
+        name: Close Issue
+        uses: peter-evans/close-issue@v1
+        with:
+          comment: |
+            Issue title must start with 'ABC-'.
+            Auto-closing this issue.
+```
+
 ### Action inputs
 
 | Name | Description | Default |
 | --- | --- | --- |
 | `token` | `GITHUB_TOKEN` or a `repo` scoped [PAT](https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line). | `GITHUB_TOKEN` |
 | `repository` | The GitHub repository containing the issue. | Current repository |
-| `issue-number` | The number of the issue to close. | `github.event.number` |
+| `issue-number` | The number of the issue to close. | `github.event.issue.number` |
 | `comment` | A comment to make on the issue before closing. | |
 
 ### Accessing issues in other repositories
