@@ -16,6 +16,8 @@ A GitHub action to close an issue.
 
 ### Close issues where the title does not match a specified prefix
 
+This is just an example to show one way in which this action can be used.
+
 ```yml
 on:
   issues:
