@@ -20,6 +20,8 @@ jobs:
         with:
             token: ${{ secrets.ACTIONS_BOT_TOKEN }}
             commit-message: Update dependencies
+            committer: GitHub <noreply@github.com>
+            author: actions-bot <actions-bot@users.noreply.github.com>
             title: Update dependencies
             body: |
               - Dependency updates
