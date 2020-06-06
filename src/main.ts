@@ -12,16 +12,16 @@ async function run(): Promise<void> {
     }
     core.debug(`Inputs: ${inspect(inputs)}`)
 
-    const repo = inputs.repository.split('/')
+    const [owner, repo] = inputs.repository.split('/')
     core.debug(`Repo: ${inspect(repo)}`)
 
-    const octokit = new github.GitHub(inputs.token)
+    const octokit = github.getOctokit(inputs.token)
 
     if (inputs.comment && inputs.comment.length > 0) {
       core.info('Adding a comment before closing the issue')
       await octokit.issues.createComment({
-        owner: repo[0],
-        repo: repo[1],
+        owner: owner,
+        repo: repo,
         issue_number: inputs.issueNumber,
         body: inputs.comment
       })
@@ -29,8 +29,8 @@ async function run(): Promise<void> {
 
     core.info('Closing the issue')
     await octokit.issues.update({
-      owner: repo[0],
-      repo: repo[1],
+      owner: owner,
+      repo: repo,
       issue_number: inputs.issueNumber,
       state: 'closed'
     })
