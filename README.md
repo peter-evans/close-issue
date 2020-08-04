@@ -39,14 +39,14 @@ jobs:
 
 | Name | Description | Default |
 | --- | --- | --- |
-| `token` | `GITHUB_TOKEN` or a `repo` scoped [PAT](https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line). | `GITHUB_TOKEN` |
+| `token` | `GITHUB_TOKEN` or a `repo` scoped [PAT](https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token). | `GITHUB_TOKEN` |
 | `repository` | The GitHub repository containing the issue. | Current repository |
 | `issue-number` | The number of the issue to close. | `github.event.issue.number` |
 | `comment` | A comment to make on the issue before closing. | |
 
 ### Accessing issues in other repositories
 
-You can close issues in another repository by using a [PAT](https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line) instead of `GITHUB_TOKEN`.
+You can close issues in another repository by using a [PAT](https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token) instead of `GITHUB_TOKEN`.
 The user associated with the PAT must have write access to the repository.
 
 ## License
