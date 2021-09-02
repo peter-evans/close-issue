@@ -34,7 +34,7 @@ async function run(): Promise<void> {
       issue_number: inputs.issueNumber,
       state: 'closed'
     })
-  } catch (error) {
+  } catch (error: any) {
     core.debug(inspect(error))
     core.setFailed(error.message)
   }
