@@ -8,7 +8,7 @@ A GitHub action to close an issue.
 
 ```yml
       - name: Close Issue
-        uses: peter-evans/close-issue@v1
+        uses: peter-evans/close-issue@v2
         with:
           issue-number: 1
           comment: Auto-closing issue
@@ -28,7 +28,7 @@ jobs:
     steps:
       - if: startsWith(github.event.issue.title, 'ABC-') != 'true'
         name: Close Issue
-        uses: peter-evans/close-issue@v1
+        uses: peter-evans/close-issue@v2
         with:
           comment: |
             Issue title must start with 'ABC-'.
