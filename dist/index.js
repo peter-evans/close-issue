@@ -45,6 +45,7 @@ function run() {
                 token: core.getInput('token'),
                 repository: core.getInput('repository'),
                 issueNumber: Number(core.getInput('issue-number')),
+                closeReason: core.getInput('close-reason'),
                 comment: core.getInput('comment')
             };
             core.debug(`Inputs: ${(0, util_1.inspect)(inputs)}`);
@@ -60,12 +61,13 @@ function run() {
                     body: inputs.comment
                 });
             }
-            core.info('Closing the issue');
+            core.info('Closing the issue as ' + inputs.closeReason);
             yield octokit.rest.issues.update({
                 owner: owner,
                 repo: repo,
                 issue_number: inputs.issueNumber,
-                state: 'closed'
+                state: 'closed',
+                state_reason: inputs.closeReason
             });
         }
         catch (error) {
