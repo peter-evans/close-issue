@@ -2,15 +2,23 @@ name: 'Close Issue'
 description: 'A GitHub action to close an issue'
 inputs:
   token:
+    required: false
     description: 'GitHub auth token'
     default: ${{ github.token }}
   repository:
+    required: false
     description: 'The GitHub repository containing the issue'
     default: ${{ github.repository }}
   issue-number:
+    required: false
     description: 'The number of the issue to close'
     default: ${{ github.event.issue.number }}
+  close-reason:
+    required: false
+    description: 'Reason for closing the issue, "completed" or "not_planned"'
+    default: 'completed'
   comment:
+    required: false
     description: 'A comment to make on the issue before closing'
 runs:
   using: 'node16'

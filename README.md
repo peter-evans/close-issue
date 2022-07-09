@@ -8,9 +8,10 @@ A GitHub action to close an issue.
 
 ```yml
       - name: Close Issue
-        uses: peter-evans/close-issue@v2
+        uses: peter-evans/close-issue@v2.1
         with:
           issue-number: 1
+          close-reason: completed
           comment: Auto-closing issue
 ```
 
@@ -42,6 +43,7 @@ jobs:
 | `token` | `GITHUB_TOKEN` or a `repo` scoped [PAT](https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token). | `GITHUB_TOKEN` |
 | `repository` | The GitHub repository containing the issue. | Current repository |
 | `issue-number` | The number of the issue to close. | `github.event.issue.number` |
+| `close-reason` | Reason for closing the issue, `completed` or `not_planned`. | `completed` |
 | `comment` | A comment to make on the issue before closing. | |
 
 ### Accessing issues in other repositories
