@@ -38,7 +38,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        target: [built, committed]
+        target: [built, committed, not_planned]
     steps:
       - uses: actions/checkout@v3
       - if: matrix.target == 'built' || github.event_name == 'pull_request'
@@ -63,9 +63,18 @@ jobs:
           content-filepath: ./issue.md
 
       - name: Close Issue
+        if: matrix.target != 'not_planned'
         uses: ./
         with:
           issue-number: ${{ steps.ciff.outputs.issue-number }}
+          comment: '[CI] test ${{ matrix.target }}'
+
+      - name: Close issue as not planned
+        if: matrix.target == 'not_planned'
+        uses: ./
+        with:
+          issue-number: ${{ steps.ciff.outputs.issue-number }}
+          close-reason: not_planned
           comment: '[CI] test ${{ matrix.target }}'
 
   package:
