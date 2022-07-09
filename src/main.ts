@@ -28,7 +28,7 @@ async function run(): Promise<void> {
       })
     }
 
-    core.info('Closing the issue')
+    core.info('Closing the issue as ' + inputs.closeReason)
     await octokit.rest.issues.update({
       owner: owner,
       repo: repo,
