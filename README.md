@@ -42,6 +42,7 @@ jobs:
 | `token` | `GITHUB_TOKEN` or a `repo` scoped [PAT](https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token). | `GITHUB_TOKEN` |
 | `repository` | The GitHub repository containing the issue. | Current repository |
 | `issue-number` | The number of the issue to close. | `github.event.issue.number` |
+| `close-reason` | Reason for closing the issue; `completed` or `not_planned`. | `completed` |
 | `comment` | A comment to make on the issue before closing. | |
 
 ### Accessing issues in other repositories
