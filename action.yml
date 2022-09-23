@@ -23,7 +23,7 @@ inputs:
   labels:
     required: false
     description: 'An array of labels to add to the issue. An empty array will clear all labels.'
-    default: null
+    default: ''
 runs:
   using: 'node16'
   main: 'dist/index.js'

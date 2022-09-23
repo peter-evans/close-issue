@@ -2,6 +2,15 @@ import * as core from '@actions/core'
 import * as github from '@actions/github'
 import {inspect} from 'util'
 
+type octokitParams = {
+  owner: string
+  repo: string
+  issue_number: number
+  state: string
+  state_reason: string
+  labels?: string[]
+}
+
 async function run(): Promise<void> {
   try {
     const inputs = {
@@ -30,19 +39,22 @@ async function run(): Promise<void> {
     }
 
     core.info('Closing the issue as ' + inputs.closeReason)
-    const params = {
+
+    const params: octokitParams = {
       owner: owner,
       repo: repo,
       issue_number: inputs.issueNumber,
       state: 'closed',
-      state_reason: inputs.closeReason
+      state_reason: inputs.closeReason,
+      labels: inputs.labels.split(',')
     }
-    
-    if (Boolean(inputs.labels)) {
-      params.labels = inputs.labels
+
+    if (!params?.labels?.length) {
+      delete params.labels
     }
-    
+
     await octokit.rest.issues.update(params)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     core.debug(inspect(error))
     core.setFailed(error.message)
