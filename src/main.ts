@@ -9,7 +9,8 @@ async function run(): Promise<void> {
       repository: core.getInput('repository'),
       issueNumber: Number(core.getInput('issue-number')),
       closeReason: core.getInput('close-reason'),
-      comment: core.getInput('comment')
+      comment: core.getInput('comment'),
+      labels: core.getInput('labels')
     }
     core.debug(`Inputs: ${inspect(inputs)}`)
 
@@ -29,13 +30,19 @@ async function run(): Promise<void> {
     }
 
     core.info('Closing the issue as ' + inputs.closeReason)
-    await octokit.rest.issues.update({
+    const params = {
       owner: owner,
       repo: repo,
       issue_number: inputs.issueNumber,
       state: 'closed',
       state_reason: inputs.closeReason
-    })
+    }
+    
+    if (Boolean(inputs.labels)) {
+      params.labels = inputs.labels
+    }
+    
+    await octokit.rest.issues.update(params)
   } catch (error: any) {
     core.debug(inspect(error))
     core.setFailed(error.message)
