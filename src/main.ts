@@ -2,6 +2,11 @@ import * as core from '@actions/core'
 import * as github from '@actions/github'
 import {inspect} from 'util'
 
+function getErrorMessage(error: unknown) {
+  if (error instanceof Error) return error.message
+  return String(error)
+}
+
 async function run(): Promise<void> {
   try {
     const inputs = {
@@ -36,9 +41,9 @@ async function run(): Promise<void> {
       state: 'closed',
       state_reason: inputs.closeReason
     })
-  } catch (error: any) {
+  } catch (error) {
     core.debug(inspect(error))
-    core.setFailed(error.message)
+    core.setFailed(getErrorMessage(error))
   }
 }
 

@@ -38,6 +38,11 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 const core = __importStar(__nccwpck_require__(2186));
 const github = __importStar(__nccwpck_require__(5438));
 const util_1 = __nccwpck_require__(3837);
+function getErrorMessage(error) {
+    if (error instanceof Error)
+        return error.message;
+    return String(error);
+}
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -72,7 +77,7 @@ function run() {
         }
         catch (error) {
             core.debug((0, util_1.inspect)(error));
-            core.setFailed(error.message);
+            core.setFailed(getErrorMessage(error));
         }
     });
 }
