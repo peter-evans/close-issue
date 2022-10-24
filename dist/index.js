@@ -44,6 +44,7 @@ function getErrorMessage(error) {
     return String(error);
 }
 function run() {
+    var _a;
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const inputs = {
@@ -51,7 +52,8 @@ function run() {
                 repository: core.getInput('repository'),
                 issueNumber: Number(core.getInput('issue-number')),
                 closeReason: core.getInput('close-reason'),
-                comment: core.getInput('comment')
+                comment: core.getInput('comment'),
+                labels: core.getInput('labels')
             };
             core.debug(`Inputs: ${(0, util_1.inspect)(inputs)}`);
             const [owner, repo] = inputs.repository.split('/');
@@ -67,13 +69,19 @@ function run() {
                 });
             }
             core.info('Closing the issue as ' + inputs.closeReason);
-            yield octokit.rest.issues.update({
+            const params = {
                 owner: owner,
                 repo: repo,
                 issue_number: inputs.issueNumber,
                 state: 'closed',
-                state_reason: inputs.closeReason
-            });
+                state_reason: inputs.closeReason,
+                labels: inputs.labels.split(',')
+            };
+            if (!((_a = params === null || params === void 0 ? void 0 : params.labels) === null || _a === void 0 ? void 0 : _a.length)) {
+                delete params.labels;
+            }
+            yield octokit.rest.issues.update(params);
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
         }
         catch (error) {
             core.debug((0, util_1.inspect)(error));

@@ -35,6 +35,18 @@ jobs:
             Auto-closing this issue.
 ```
 
+### Close issue and add label(s)
+```yml
+      - name: Close Issue
+        uses: peter-evans/close-issue@v2
+        with:
+          issue-number: 1
+          comment: Auto-closing issue
+          labels: 'wontfix'
+```
+
+> Add multiple labels separated by comma
+
 ### Action inputs
 
 | Name | Description | Default |
@@ -44,6 +56,7 @@ jobs:
 | `issue-number` | The number of the issue to close. | `github.event.issue.number` |
 | `close-reason` | Reason for closing the issue; `completed` or `not_planned`. | `completed` |
 | `comment` | A comment to make on the issue before closing. | |
+| `labels` | Add labels to the issue. When adding more than one then separate by comma. | |
 
 ### Accessing issues in other repositories
 
