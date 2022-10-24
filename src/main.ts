@@ -11,6 +11,11 @@ type octokitParams = {
   labels?: string[]
 }
 
+function getErrorMessage(error: unknown) {
+  if (error instanceof Error) return error.message
+  return String(error)
+}
+
 async function run(): Promise<void> {
   try {
     const inputs = {
@@ -54,10 +59,9 @@ async function run(): Promise<void> {
     }
 
     await octokit.rest.issues.update(params)
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  } catch (error: any) {
+  } catch (error) {
     core.debug(inspect(error))
-    core.setFailed(error.message)
+    core.setFailed(getErrorMessage(error))
   }
 }
 
