@@ -42,7 +42,8 @@ jobs:
         with:
           issue-number: 1
           comment: Auto-closing issue
-          labels: 'wontfix'
+          labels: |
+            wontfix
 ```
 
 > Add multiple labels separated by comma
@@ -56,7 +57,7 @@ jobs:
 | `issue-number` | The number of the issue to close. | `github.event.issue.number` |
 | `close-reason` | Reason for closing the issue; `completed` or `not_planned`. | `completed` |
 | `comment` | A comment to make on the issue before closing. | |
-| `labels` | Add labels to the issue. When adding more than one then separate by comma. | |
+| `labels` | A comma or newline separated list of labels. | |
 
 ### Accessing issues in other repositories
 
