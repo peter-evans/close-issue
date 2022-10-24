@@ -73,6 +73,8 @@ jobs:
         with:
           issue-number: ${{ steps.ciff.outputs.issue-number }}
           comment: '[CI] test ${{ matrix.target }}'
+          labels: |
+            wontfix
 
   package:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
