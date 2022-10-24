@@ -43,6 +43,15 @@ function getErrorMessage(error) {
         return error.message;
     return String(error);
 }
+function getInputAsArray(name, options) {
+    return getStringAsArray(core.getInput(name, options));
+}
+function getStringAsArray(str) {
+    return str
+        .split(/[\n,]+/)
+        .map(s => s.trim())
+        .filter(x => x !== '');
+}
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -51,7 +60,8 @@ function run() {
                 repository: core.getInput('repository'),
                 issueNumber: Number(core.getInput('issue-number')),
                 closeReason: core.getInput('close-reason'),
-                comment: core.getInput('comment')
+                comment: core.getInput('comment'),
+                labels: getInputAsArray('labels')
             };
             core.debug(`Inputs: ${(0, util_1.inspect)(inputs)}`);
             const [owner, repo] = inputs.repository.split('/');
@@ -72,7 +82,8 @@ function run() {
                 repo: repo,
                 issue_number: inputs.issueNumber,
                 state: 'closed',
-                state_reason: inputs.closeReason
+                state_reason: inputs.closeReason,
+                labels: inputs.labels.length > 0 ? inputs.labels : undefined
             });
         }
         catch (error) {

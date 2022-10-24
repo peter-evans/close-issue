@@ -20,6 +20,9 @@ inputs:
   comment:
     required: false
     description: 'A comment to make on the issue before closing'
+  labels:
+    required: false
+    description: 'A comma or newline separated list of labels.'
 runs:
   using: 'node16'
   main: 'dist/index.js'

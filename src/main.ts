@@ -7,6 +7,17 @@ function getErrorMessage(error: unknown) {
   return String(error)
 }
 
+function getInputAsArray(name: string, options?: core.InputOptions): string[] {
+  return getStringAsArray(core.getInput(name, options))
+}
+
+function getStringAsArray(str: string): string[] {
+  return str
+    .split(/[\n,]+/)
+    .map(s => s.trim())
+    .filter(x => x !== '')
+}
+
 async function run(): Promise<void> {
   try {
     const inputs = {
@@ -14,7 +25,8 @@ async function run(): Promise<void> {
       repository: core.getInput('repository'),
       issueNumber: Number(core.getInput('issue-number')),
       closeReason: core.getInput('close-reason'),
-      comment: core.getInput('comment')
+      comment: core.getInput('comment'),
+      labels: getInputAsArray('labels')
     }
     core.debug(`Inputs: ${inspect(inputs)}`)
 
@@ -34,12 +46,14 @@ async function run(): Promise<void> {
     }
 
     core.info('Closing the issue as ' + inputs.closeReason)
+
     await octokit.rest.issues.update({
       owner: owner,
       repo: repo,
       issue_number: inputs.issueNumber,
       state: 'closed',
-      state_reason: inputs.closeReason
+      state_reason: inputs.closeReason,
+      labels: inputs.labels.length > 0 ? inputs.labels : undefined
     })
   } catch (error) {
     core.debug(inspect(error))
