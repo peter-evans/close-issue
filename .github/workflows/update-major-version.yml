@@ -13,6 +13,9 @@ on:
         options:
           - v2
 
+permissions:
+  workflows
+
 jobs:
   tag:
     runs-on: ubuntu-latest
