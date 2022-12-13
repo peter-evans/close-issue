@@ -14,7 +14,7 @@ on:
           - v2
 
 permissions:
-  workflows
+  actions: write
 
 jobs:
   tag:
