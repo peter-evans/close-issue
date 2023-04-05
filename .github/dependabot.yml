@@ -7,15 +7,3 @@ updates:
       day: "wednesday"
     labels:
       - "dependencies"
-
-  - package-ecosystem: "npm"
-    directory: "/"
-    schedule:
-      interval: "weekly"
-      day: "wednesday"
-    ignore:
-      - dependency-name: "*"
-        update-types: ["version-update:semver-major"]
-    labels:
-      - "dependencies"
- 

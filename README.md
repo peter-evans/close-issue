@@ -6,9 +6,21 @@ A GitHub action to close an issue.
 
 ## Usage
 
+| :exclamation:  Using this action is no longer necessary   |
+|-----------------------------------------------------------|
+
+The same functionality exists in the GitHub CLI. See the documentation [here](https://cli.github.com/manual/gh_issue_close).
+```yml
+    - name: Close Issue
+      run: gh issue close --comment "Auto-closing issue" "1"
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+```
+
+If you prefer to use this action:
 ```yml
       - name: Close Issue
-        uses: peter-evans/close-issue@v2
+        uses: peter-evans/close-issue@v3
         with:
           issue-number: 1
           comment: Auto-closing issue
@@ -28,7 +40,7 @@ jobs:
     steps:
       - if: startsWith(github.event.issue.title, 'ABC-') != 'true'
         name: Close Issue
-        uses: peter-evans/close-issue@v2
+        uses: peter-evans/close-issue@v3
         with:
           comment: |
             Issue title must start with 'ABC-'.
@@ -38,15 +50,13 @@ jobs:
 ### Close issue and add label(s)
 ```yml
       - name: Close Issue
-        uses: peter-evans/close-issue@v2
+        uses: peter-evans/close-issue@v3
         with:
           issue-number: 1
           comment: Auto-closing issue
           labels: |
             wontfix
 ```
-
-> Add multiple labels separated by comma
 
 ### Action inputs
 
