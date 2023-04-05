@@ -24,8 +24,50 @@ inputs:
     required: false
     description: 'A comma or newline separated list of labels.'
 runs:
-  using: 'node16'
-  main: 'dist/index.js'
+  using: composite
+  steps:
+    - name: Set parameters
+      id: params
+      shell: bash
+      run: |
+        if [ -n "${{ inputs.comment }}" ]; then
+          echo comment="--comment \"${{ inputs.comment }}\"" >> $GITHUB_OUTPUT
+        fi
+
+        if [ "${{ inputs.close-reason }}" == "not_planned" ]; then
+          echo close-reason="not planned" >> $GITHUB_OUTPUT
+        else
+          echo close-reason="completed" >> $GITHUB_OUTPUT
+        fi
+
+        # Convert labels to comma separated list
+        if [ -n "${{ inputs.labels }}" ]; then
+          labels=$(echo "${{ inputs.labels }}" | tr '\n' ',' | sed 's/,$//')
+          # Remove trailing comma and whitespace
+          labels=$(echo $labels | sed 's/,$//' | sed 's/[[:space:]]//g')
+          echo labels=$labels >> $GITHUB_OUTPUT
+        fi
+
+    - name: Close Issue
+      shell: bash
+      run: |
+        gh issue close -R "${{ inputs.repository }}" \
+        --reason "${{ steps.params.outputs.close-reason }}" \
+        ${{ steps.params.outputs.comment }} \
+        "${{ inputs.issue-number }}"
+      env:
+        GH_TOKEN: ${{ inputs.token }}
+
+    - name: Add Labels
+      if: steps.params.outputs.labels != ''
+      shell: bash
+      run: |
+        gh issue edit -R "${{ inputs.repository }}" \
+        --add-label "${{ steps.params.outputs.labels }}" \
+        "${{ inputs.issue-number }}"
+      env:
+        GH_TOKEN: ${{ inputs.token }}
+
 branding:
-  icon: 'slash'
+  icon: 'git-pull-request'
   color: 'gray-dark'
