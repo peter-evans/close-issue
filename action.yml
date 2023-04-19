@@ -31,7 +31,11 @@ runs:
       shell: bash
       run: |
         if [ -n "${{ inputs.comment }}" ]; then
-          echo comment="--comment \"${{ inputs.comment }}\"" >> $GITHUB_OUTPUT
+          comment="--comment \"${{ inputs.comment }}\""
+          delimiter="$(openssl rand -hex 8)"
+          echo "comment<<$delimiter" >> $GITHUB_OUTPUT
+          echo "$comment" >> $GITHUB_OUTPUT
+          echo "$delimiter" >> $GITHUB_OUTPUT
         fi
 
         if [ "${{ inputs.close-reason }}" == "not_planned" ]; then

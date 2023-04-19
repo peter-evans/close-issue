@@ -54,7 +54,9 @@ jobs:
         uses: ./
         with:
           issue-number: ${{ steps.ciff.outputs.issue-number }}
-          comment: '[CI] test ${{ matrix.os }}'
+          comment: |
+            [CI]
+            test ${{ matrix.os }}
           labels: |
             wontfix
             ci-test
