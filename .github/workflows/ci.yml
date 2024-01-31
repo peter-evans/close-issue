@@ -45,7 +45,7 @@ jobs:
 
       - name: Test create issue from file
         id: ciff
-        uses: peter-evans/create-issue-from-file@v4
+        uses: peter-evans/create-issue-from-file@v5
         with:
           title: '[CI] test ${{ matrix.os }}'
           content-filepath: ./issue.md
