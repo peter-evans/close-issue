@@ -29,48 +29,54 @@ runs:
     - name: Set parameters
       id: params
       shell: bash
+      env:
+        CLOSE_REASON: ${{ inputs.close-reason }}
+        LABELS: ${{ inputs.labels }}
       run: |
-        if [ -n "${{ inputs.comment }}" ]; then
-          comment="--comment \"${{ inputs.comment }}\""
-          delimiter="$(openssl rand -hex 8)"
-          echo "comment<<$delimiter" >> $GITHUB_OUTPUT
-          echo "$comment" >> $GITHUB_OUTPUT
-          echo "$delimiter" >> $GITHUB_OUTPUT
-        fi
-
-        if [ "${{ inputs.close-reason }}" == "not_planned" ]; then
+        if [ "$CLOSE_REASON" == "not_planned" ]; then
           echo close-reason="not planned" >> $GITHUB_OUTPUT
         else
           echo close-reason="completed" >> $GITHUB_OUTPUT
         fi
 
         # Convert labels to comma separated list
-        if [ -n "${{ inputs.labels }}" ]; then
-          labels=$(echo "${{ inputs.labels }}" | tr '\n' ',' | sed 's/,$//')
+        if [ -n "$LABELS" ]; then
+          labels=$(echo "$LABELS" | tr '\n' ',' | sed 's/,$//')
           # Remove trailing comma and whitespace
-          labels=$(echo $labels | sed 's/,$//' | sed 's/[[:space:]]//g')
-          echo labels=$labels >> $GITHUB_OUTPUT
+          labels=$(echo "$labels" | sed 's/,$//' | sed 's/[[:space:]]//g')
+          echo labels="$labels" >> $GITHUB_OUTPUT
         fi
 
     - name: Close Issue
       shell: bash
-      run: |
-        gh issue close -R "${{ inputs.repository }}" \
-        --reason "${{ steps.params.outputs.close-reason }}" \
-        ${{ steps.params.outputs.comment }} \
-        "${{ inputs.issue-number }}"
       env:
         GH_TOKEN: ${{ inputs.token }}
+        COMMENT: ${{ inputs.comment }}
+        REPOSITORY: ${{ inputs.repository }}
+        CLOSE_REASON: ${{ steps.params.outputs.close-reason }}
+        ISSUE_NUMBER: ${{ inputs.issue-number }}
+      run: |
+        comment_args=()
+        if [ -n "$COMMENT" ]; then
+          comment_args=(--comment "$COMMENT")
+        fi
+        gh issue close -R "$REPOSITORY" \
+          --reason "$CLOSE_REASON" \
+          "${comment_args[@]}" \
+          "$ISSUE_NUMBER"
 
     - name: Add Labels
       if: steps.params.outputs.labels != ''
       shell: bash
-      run: |
-        gh issue edit -R "${{ inputs.repository }}" \
-        --add-label "${{ steps.params.outputs.labels }}" \
-        "${{ inputs.issue-number }}"
       env:
         GH_TOKEN: ${{ inputs.token }}
+        REPOSITORY: ${{ inputs.repository }}
+        LABELS: ${{ steps.params.outputs.labels }}
+        ISSUE_NUMBER: ${{ inputs.issue-number }}
+      run: |
+        gh issue edit -R "$REPOSITORY" \
+          --add-label "$LABELS" \
+          "$ISSUE_NUMBER"
 
 branding:
   icon: 'git-pull-request'
